@@ -1,0 +1,6 @@
+- name: 执行同步并打印调试日志
+  env:
+    DEBUG: garmin*
+  run: |
+    echo "国区账号前缀：${GARMIN_USERNAME%%@*}"
+    yarn migrate_garmin_global_to_cn
