@@ -1,6 +1,24 @@
-- name: 执行同步并打印调试日志
-  env:
-    DEBUG: garmin*
-  run: |
-    echo "国区账号前缀：${GARMIN_USERNAME%%@*}"
-    yarn migrate_garmin_global_to_cn
+name GarminSync
+
+on:
+  schedule:
+    - cron '0 */6 * * *' # 每6小时自动同步
+  workflow_dispatch: # 支持手动点按钮运行
+
+jobs:
+  sync-job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 安装node、依赖
+        run: |
+          yarn install
+
+      # 你提问里的这段完整步骤放在这里
+      - name: 执行同步并打印调试日志
+        env:
+          DEBUG: garmin*
+        run: |
+          echo "国区账号前缀：${GARMIN_USERNAME%%@*}"
+          yarn migrate_garmin_global_to_cn
